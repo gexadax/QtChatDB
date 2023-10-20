@@ -1,3 +1,5 @@
+#CMakeLists.txt
+
 cmake_minimum_required(VERSION 3.5)
 
 project(main VERSION 0.1 LANGUAGES CXX)
@@ -68,3 +70,26 @@ install(TARGETS main
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(main)
 endif()
+#здесь мы формируем список всех исходников, ассоциированных с
+#проектом Chat.
+#на самом деле, обязательными являются только SRC RC и UI,
+#но я добавляю так же HEADERS, что бы они так же отображались
+#в дереве проектов.
+
+#!!! не забывайте, что при добавлении/удалении файлов  обязательно
+#нужно запускать CMake
+file(GLOB_RECURSE SRC_FILES sources/*.cpp)
+file(GLOB_RECURSE HEADERS_FILES sources/*.h)
+file(GLOB_RECURSE RC_FILES sources/*.qrc)
+file(GLOB_RECURSE UI_FILES sources/*.ui)
+
+
+#здесь мы включаем обязательные для нас опции
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+#вызываем обработку .ui и .qrc файлов. Здесь же происходит генерация
+#промежуточных исходников.
+qt5_wrap_ui(QUI ${UI_FILES})
+qt5_add_resources(QRC ${RC_FILES})

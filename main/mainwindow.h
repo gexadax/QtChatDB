@@ -15,6 +15,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void createServerIni(); // Объявление функции для создания файла server.ini
+
 private:
     Ui::MainWindow *ui;
 };
