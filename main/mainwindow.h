@@ -16,7 +16,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void createServerIni(); // Объявление функции для создания файла server.ini
+    void createServerIni();
 
 private:
     Ui::MainWindow *ui;

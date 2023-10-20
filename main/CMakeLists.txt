@@ -15,7 +15,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
+    chat.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
@@ -40,6 +40,8 @@ else()
     else()
         add_executable(main
             ${PROJECT_SOURCES}
+            config.cpp
+            config.h
         )
     endif()
 endif()
