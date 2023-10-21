@@ -1,28 +1,35 @@
+// mainwindow.h
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
+#include <QTextEdit>
+#include <QCheckBox>
+#include <QStackedWidget>
+#include <QMap>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+namespace Ui {
+class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
-    void createServerIni(const QString& filename);
-
-public slots:
     void slot_pushButtonNext_clicked();
     void slot_pushButtonPreview_clicked();
+    void slot_pushButtonFinish_clicked();
 
 private:
     Ui::MainWindow *ui;
+    void createServerIni(const QString &filename);
+    void saveIniFile(const QString &filename, const QMap<QString, QString> &data);
 };
+
 #endif // MAINWINDOW_H
