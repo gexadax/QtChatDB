@@ -20,6 +20,7 @@ private slots:
 
 public slots:
     void on_pushButtonNext_clicked();
+    void on_pushButtonPreview_clicked();
 
 private:
     Ui::MainWindow *ui;
