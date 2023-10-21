@@ -17,3 +17,8 @@ void MainWindow::createServerIni() {
     Config config; // Создаем объект класса Config
     config.createServerIni(); // Вызываем метод createServerIni
 }
+
+void MainWindow::on_pushButtonNext_clicked() {
+    // Ваш код для обработки нажатия кнопки "Next"
+    ui->stackedWidget->setCurrentIndex(1);
+}
