@@ -19,8 +19,8 @@ private slots:
     void createServerIni();
 
 public slots:
-    void on_pushButtonNext_clicked();
-    void on_pushButtonPreview_clicked();
+    void slot_pushButtonNext_clicked();
+    void slot_pushButtonPreview_clicked();
 
 private:
     Ui::MainWindow *ui;
