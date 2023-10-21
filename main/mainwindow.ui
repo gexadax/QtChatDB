@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QCheckBox" name="checkBoxServer">
@@ -51,6 +51,19 @@
       </property>
       <property name="text">
        <string>Next</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxClient">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>100</y>
+        <width>78</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Client</string>
       </property>
      </widget>
     </widget>
@@ -81,7 +94,7 @@
        <string>Preview</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit">
+     <widget class="QTextEdit" name="textEditDatabase">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -91,7 +104,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_2">
+     <widget class="QTextEdit" name="textEditHostname">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -101,7 +114,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_3">
+     <widget class="QTextEdit" name="textEditDatabasename">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -111,7 +124,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_4">
+     <widget class="QTextEdit" name="textEditUsername">
       <property name="geometry">
        <rect>
         <x>140</x>
@@ -121,7 +134,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTextEdit" name="textEdit_5">
+     <widget class="QTextEdit" name="textEditPassword">
       <property name="geometry">
        <rect>
         <x>140</x>

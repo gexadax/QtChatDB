@@ -16,7 +16,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void createServerIni();
+    void createServerIni(const QString& filename);
 
 public slots:
     void slot_pushButtonNext_clicked();

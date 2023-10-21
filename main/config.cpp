@@ -1,14 +1,13 @@
+// config.cpp
 #include "config.h"
+#include <QFile>
 #include <QTextStream>
 #include <QDebug>
 
 Config::Config() {}
 
-void Config::createServerIni() {
-    // Создаем файл server.ini в текущей директории
-    QFile file("server.ini");
-
-    // Пытаемся открыть файл для записи
+void Config::createServerIni(const QString &filename) {
+    QFile file(filename); // Создаем файл
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
         // Записываем данные в файл
@@ -18,11 +17,9 @@ void Config::createServerIni() {
         stream << "DATABASENAME: chatdb\n";
         stream << "USERNAME: postgres\n";
         stream << "PASSWORD: postgres\n";
-
-        // Закрываем файл
         file.close();
     } else {
         // Обработка ошибки открытия файла
-        qDebug() << "Ошибка открытия файла server.ini";
+        qDebug() << "Ошибка открытия файла " << filename;
     }
 }
