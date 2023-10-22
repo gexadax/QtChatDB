@@ -5,14 +5,23 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-
     connect(ui->pushButtonNext, &QPushButton::clicked, this, &MainWindow::slot_pushButtonNext_clicked);
     connect(ui->pushButtonPreview, &QPushButton::clicked, this, &MainWindow::slot_pushButtonPreview_clicked);
     connect(ui->pushButtonFinish, &QPushButton::clicked, this, &MainWindow::slot_pushButtonFinish_clicked);
+    connect(ui->checkBoxServer, &QCheckBox::stateChanged, this, &MainWindow::updateNextButtonState);
+    connect(ui->checkBoxClient, &QCheckBox::stateChanged, this, &MainWindow::updateNextButtonState);
+    ui->pushButtonNext->setEnabled(false);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::updateNextButtonState() {
+    bool isServerChecked = ui->checkBoxServer->isChecked();
+    bool isClientChecked = ui->checkBoxClient->isChecked();
+
+    ui->pushButtonNext->setEnabled(isServerChecked || isClientChecked);
 }
 
 void MainWindow::slot_pushButtonNext_clicked() {

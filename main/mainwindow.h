@@ -19,11 +19,13 @@ private slots:
     void slot_pushButtonNext_clicked();
     void slot_pushButtonPreview_clicked();
     void slot_pushButtonFinish_clicked();
+    void updateNextButtonState();
 
 private:
     Ui::MainWindow *ui;
     void createServerIni(const QString &filename);
     void saveIniFile(const QString &filename, const QMap<QString, QString> &data);
+
 };
 
 #endif // MAINWINDOW_H
