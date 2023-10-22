@@ -1,13 +1,7 @@
-// mainwindow.h
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPushButton>
-#include <QTextEdit>
-#include <QCheckBox>
-#include <QStackedWidget>
-#include <QMap>
 
 namespace Ui {
 class MainWindow;

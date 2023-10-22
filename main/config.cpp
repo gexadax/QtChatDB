@@ -1,16 +1,13 @@
-// config.cpp
 #include "config.h"
 #include <QFile>
-#include <QTextStream>
 #include <QDebug>
 
 Config::Config() {}
 
 void Config::createServerIni(const QString &filename) {
-    QFile file(filename); // Создаем файл
+    QFile file(filename);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
-        // Записываем данные в файл
         stream << "Server Configuration\n\n";
         stream << "DATABASE: QPSQL\n";
         stream << "HOSTNAME: localhost\n";
@@ -19,7 +16,19 @@ void Config::createServerIni(const QString &filename) {
         stream << "PASSWORD: postgres\n";
         file.close();
     } else {
-        // Обработка ошибки открытия файла
+        qDebug() << "Ошибка открытия файла " << filename;
+    }
+}
+
+void Config::saveIniFile(const QString &filename, const QMap<QString, QString> &data) {
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        foreach (const QString &key, data.keys()) {
+            stream << key << ": " << data[key] << "\n";
+        }
+        file.close();
+    } else {
         qDebug() << "Ошибка открытия файла " << filename;
     }
 }
