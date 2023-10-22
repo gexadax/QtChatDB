@@ -77,13 +77,30 @@ void MainWindow::slot_pushButtonFinish_clicked() {
 
     if (isServerChecked) {
         Config config;
-        config.saveIniFile("server.ini", serverData);
+        if (!serverDataIsEmpty(serverData)) {
+            config.saveIniFile("server.ini", serverData);
+        }
     }
 
     if (isClientChecked) {
         Config config;
-        config.saveIniFile("client.ini", serverData);
+        if (!clientDataIsEmpty(clientData)) {
+            config.saveIniFile("client.ini", clientData);
+        }
     }
 
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(2);
 }
+
+bool MainWindow::serverDataIsEmpty(const QMap<QString, QString> &data) {
+    return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&
+           data["DATABASENAME"].isEmpty() && data["USERNAME"].isEmpty() &&
+           data["PASSWORD"].isEmpty();
+}
+
+bool MainWindow::clientDataIsEmpty(const QMap<QString, QString> &data) {
+    return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&
+           data["DATABASENAME"].isEmpty() && data["USERNAME"].isEmpty() &&
+           data["PASSWORD"].isEmpty();
+}
+

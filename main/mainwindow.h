@@ -20,6 +20,8 @@ private slots:
     void slot_pushButtonPreview_clicked();
     void slot_pushButtonFinish_clicked();
     void updateNextButtonState();
+    bool serverDataIsEmpty(const QMap<QString, QString> &data);
+    bool clientDataIsEmpty(const QMap<QString, QString> &data);
 
 private:
     Ui::MainWindow *ui;

@@ -16,7 +16,7 @@ void Config::createServerIni(const QString &filename) {
         stream << "PASSWORD: postgres\n";
         file.close();
     } else {
-        qDebug() << "Ошибка открытия файла " << filename;
+        qDebug() << "Error opening file " << filename;
     }
 }
 
@@ -29,6 +29,6 @@ void Config::saveIniFile(const QString &filename, const QMap<QString, QString> &
         }
         file.close();
     } else {
-        qDebug() << "Ошибка открытия файла " << filename;
+        qDebug() << "Error opening file " << filename;
     }
 }
