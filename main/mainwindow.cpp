@@ -31,11 +31,25 @@ void MainWindow::slot_pushButtonNext_clicked() {
     if (isServerChecked) {
         Config config;
         config.createServerIni("server.ini");
+        QMap<QString, QString> serverData = config.readIniFile("server.ini");
+
+        ui->textEditDatabase->setPlaceholderText(serverData["DATABASE"]);
+        ui->textEditHostname->setPlaceholderText(serverData["HOSTNAME"]);
+        ui->textEditDatabasename->setPlaceholderText(serverData["DATABASENAME"]);
+        ui->textEditUsername->setPlaceholderText(serverData["USERNAME"]);
+        ui->textEditPassword->setPlaceholderText(serverData["PASSWORD"]);
     }
 
     if (isClientChecked) {
         Config config;
         config.createServerIni("client.ini");
+        QMap<QString, QString> clientData = config.readIniFile("client.ini");
+
+        ui->textEditDatabase->setPlaceholderText(clientData["DATABASE"]);
+        ui->textEditHostname->setPlaceholderText(clientData["HOSTNAME"]);
+        ui->textEditDatabasename->setPlaceholderText(clientData["DATABASENAME"]);
+        ui->textEditUsername->setPlaceholderText(clientData["USERNAME"]);
+        ui->textEditPassword->setPlaceholderText(clientData["PASSWORD"]);
     }
 
     ui->stackedWidget->setCurrentIndex(1);
@@ -106,7 +120,6 @@ void MainWindow::slot_pushButtonFinish_clicked() {
         ui->tabWidget->setTabEnabled(1, false);
     }
 }
-
 
 bool MainWindow::serverDataIsEmpty(const QMap<QString, QString> &data) {
     return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&

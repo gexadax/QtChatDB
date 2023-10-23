@@ -1,5 +1,6 @@
 #include "config.h"
 #include <QFile>
+#include <QTextStream>
 #include <QDebug>
 
 Config::Config() {}
@@ -31,4 +32,23 @@ void Config::saveIniFile(const QString &filename, const QMap<QString, QString> &
     } else {
         qDebug() << "Error opening file " << filename;
     }
+}
+
+QMap<QString, QString> Config::readIniFile(const QString &filename) {
+    QMap<QString, QString> data;
+    QFile file(filename);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        while (!stream.atEnd()) {
+            QString line = stream.readLine();
+            QStringList parts = line.split(":");
+            if (parts.size() == 2) {
+                data[parts[0].trimmed()] = parts[1].trimmed();
+            }
+        }
+        file.close();
+    } else {
+        qDebug() << "Error opening file " << filename;
+    }
+    return data;
 }
