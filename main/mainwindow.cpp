@@ -90,7 +90,23 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     }
 
     ui->stackedWidget->setCurrentIndex(2);
+    resize(800, 600);
+
+    QFile serverFile("server.ini");
+    QFile clientFile("client.ini");
+
+    if (serverFile.exists()) {
+        ui->tabWidget->setTabEnabled(0, true);
+        ui->tabWidget->setTabEnabled(0, false);
+    }
+
+    if (clientFile.exists()) {
+        ui->tabWidget->setTabEnabled(1, true);
+    } else {
+        ui->tabWidget->setTabEnabled(1, false);
+    }
 }
+
 
 bool MainWindow::serverDataIsEmpty(const QMap<QString, QString> &data) {
     return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&
@@ -103,4 +119,7 @@ bool MainWindow::clientDataIsEmpty(const QMap<QString, QString> &data) {
            data["DATABASENAME"].isEmpty() && data["USERNAME"].isEmpty() &&
            data["PASSWORD"].isEmpty();
 }
+
+
+
 
