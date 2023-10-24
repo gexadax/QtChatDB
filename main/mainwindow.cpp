@@ -11,6 +11,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->checkBoxServer, &QCheckBox::stateChanged, this, &MainWindow::updateNextButtonState);
     connect(ui->checkBoxClient, &QCheckBox::stateChanged, this, &MainWindow::updateNextButtonState);
     ui->pushButtonNext->setEnabled(false);
+
+    QDir dir(".");
+    QStringList filters;
+    filters << "*.ini";
+    QStringList iniFiles = dir.entryList(filters);
+
+    bool serverIniExists = iniFiles.contains("server.ini");
+    bool clientIniExists = iniFiles.contains("client.ini");
+
+    QFile serverFile("server.ini");
+    if (serverFile.exists()) {
+        ui->tabWidget->setTabEnabled(0, true);
+    } else {
+        ui->tabWidget->setTabEnabled(0, false);
+    }
+
+    QFile clientFile("client.ini");
+    if (clientFile.exists()) {
+        ui->tabWidget->setTabEnabled(1, true);
+    } else {
+        ui->tabWidget->setTabEnabled(1, false);
+    }
+
+    if (serverIniExists || clientIniExists) {
+        ui->stackedWidget->setCurrentIndex(2);
+        resize(800, 600);
+    } else {
+        ui->stackedWidget->setCurrentIndex(0);
+    }
 }
 
 MainWindow::~MainWindow() {
@@ -89,28 +118,29 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     bool isServerChecked = ui->checkBoxServer->isChecked();
     bool isClientChecked = ui->checkBoxClient->isChecked();
 
-    if (isServerChecked) {
-        Config config;
-        if (!serverDataIsEmpty(serverData)) {
-            config.saveIniFile("server.ini", serverData);
-        }
-    }
-
-    if (isClientChecked) {
-        Config config;
-        if (!clientDataIsEmpty(clientData)) {
-            config.saveIniFile("client.ini", clientData);
-        }
-    }
-
     ui->stackedWidget->setCurrentIndex(2);
     resize(800, 600);
 
     QFile serverFile("server.ini");
     QFile clientFile("client.ini");
 
+    Config config;
+
+    if (isServerChecked) {
+        if (!serverDataIsEmpty(serverData)) {
+            config.saveIniFile("server.ini", serverData);
+        }
+    }
+
+    if (isClientChecked) {
+        if (!clientDataIsEmpty(clientData)) {
+            config.saveIniFile("client.ini", clientData);
+        }
+    }
+
     if (serverFile.exists()) {
         ui->tabWidget->setTabEnabled(0, true);
+    } else {
         ui->tabWidget->setTabEnabled(0, false);
     }
 
