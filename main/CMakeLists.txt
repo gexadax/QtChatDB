@@ -13,6 +13,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt5Sql REQUIRED)
+
+
+
 
 set(PROJECT_SOURCES
     chat.cpp
@@ -42,12 +46,14 @@ else()
             ${PROJECT_SOURCES}
             config.cpp
             config.h
+            database.h
+            database.cpp
         )
     endif()
 endif()
 
 target_link_libraries(main PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
+target_link_libraries(main PRIVATE Qt5::Sql)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
