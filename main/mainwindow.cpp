@@ -62,11 +62,11 @@ void MainWindow::slot_pushButtonNext_clicked() {
         config.createServerIni("server.ini");
         QMap<QString, QString> serverData = config.readIniFile("server.ini");
 
-        ui->textEditDatabase->setPlaceholderText(serverData["DATABASE"]);
-        ui->textEditHostname->setPlaceholderText(serverData["HOSTNAME"]);
-        ui->textEditDatabasename->setPlaceholderText(serverData["DATABASENAME"]);
-        ui->textEditUsername->setPlaceholderText(serverData["USERNAME"]);
-        ui->textEditPassword->setPlaceholderText(serverData["PASSWORD"]);
+        ui->lineEditDatabase->setPlaceholderText(serverData["DATABASE"]);
+        ui->lineEditHostname->setPlaceholderText(serverData["HOSTNAME"]);
+        ui->lineEditDatabasename->setPlaceholderText(serverData["DATABASENAME"]);
+        ui->lineEditUsername->setPlaceholderText(serverData["USERNAME"]);
+        ui->lineEditPassword->setPlaceholderText(serverData["PASSWORD"]);
     }
 
     if (isClientChecked) {
@@ -74,11 +74,11 @@ void MainWindow::slot_pushButtonNext_clicked() {
         config.createServerIni("client.ini");
         QMap<QString, QString> clientData = config.readIniFile("client.ini");
 
-        ui->textEditDatabase->setPlaceholderText(clientData["DATABASE"]);
-        ui->textEditHostname->setPlaceholderText(clientData["HOSTNAME"]);
-        ui->textEditDatabasename->setPlaceholderText(clientData["DATABASENAME"]);
-        ui->textEditUsername->setPlaceholderText(clientData["USERNAME"]);
-        ui->textEditPassword->setPlaceholderText(clientData["PASSWORD"]);
+        ui->lineEditDatabase->setPlaceholderText(clientData["DATABASE"]);
+        ui->lineEditHostname->setPlaceholderText(clientData["HOSTNAME"]);
+        ui->lineEditDatabasename->setPlaceholderText(clientData["DATABASENAME"]);
+        ui->lineEditUsername->setPlaceholderText(clientData["USERNAME"]);
+        ui->lineEditPassword->setPlaceholderText(clientData["PASSWORD"]);
     }
 
     ui->stackedWidget->setCurrentIndex(1);
@@ -102,18 +102,19 @@ void MainWindow::slot_pushButtonPreview_clicked() {
 
 void MainWindow::slot_pushButtonFinish_clicked() {
     QMap<QString, QString> serverData;
-    serverData["DATABASE"] = ui->textEditDatabase->toPlainText();
-    serverData["HOSTNAME"] = ui->textEditHostname->toPlainText();
-    serverData["DATABASENAME"] = ui->textEditDatabasename->toPlainText();
-    serverData["USERNAME"] = ui->textEditUsername->toPlainText();
-    serverData["PASSWORD"] = ui->textEditPassword->toPlainText();
+    serverData["DATABASE"] = ui->lineEditDatabase->text();
+    serverData["HOSTNAME"] = ui->lineEditHostname->text();
+    serverData["DATABASENAME"] = ui->lineEditDatabasename->text();
+    serverData["USERNAME"] = ui->lineEditUsername->text();
+    serverData["PASSWORD"] = ui->lineEditPassword->text();
 
     QMap<QString, QString> clientData;
-    clientData["DATABASE"] = ui->textEditDatabase->toPlainText();
-    clientData["HOSTNAME"] = ui->textEditHostname->toPlainText();
-    clientData["DATABASENAME"] = ui->textEditDatabasename->toPlainText();
-    clientData["USERNAME"] = ui->textEditUsername->toPlainText();
-    clientData["PASSWORD"] = ui->textEditPassword->toPlainText();
+    clientData["DATABASE"] = ui->lineEditDatabase->text();
+    clientData["HOSTNAME"] = ui->lineEditHostname->text();
+    clientData["DATABASENAME"] = ui->lineEditDatabasename->text();
+    clientData["USERNAME"] = ui->lineEditUsername->text();
+    clientData["PASSWORD"] = ui->lineEditPassword->text();
+
 
     bool isServerChecked = ui->checkBoxServer->isChecked();
     bool isClientChecked = ui->checkBoxClient->isChecked();
