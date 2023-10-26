@@ -1,4 +1,5 @@
 #include "config.h"
+#include "mainwindow.h"
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
@@ -14,7 +15,7 @@ void Config::createServerIni(const QString &filename) {
         stream << "HOSTNAME: localhost\n";
         stream << "DATABASENAME: chatdb\n";
         stream << "USERNAME: postgres\n";
-        stream << "PASSWORD: postgres\n";
+        stream << "PASSWORD: dfbdvtgh\n";
         file.close();
     } else {
         qDebug() << "Error opening file " << filename;
@@ -51,4 +52,16 @@ QMap<QString, QString> Config::readIniFile(const QString &filename) {
         qDebug() << "Error opening file " << filename;
     }
     return data;
+}
+
+bool serverDataIsEmpty(const QMap<QString, QString> &data) {
+    return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&
+           data["DATABASENAME"].isEmpty() && data["USERNAME"].isEmpty() &&
+           data["PASSWORD"].isEmpty();
+}
+
+bool clientDataIsEmpty(const QMap<QString, QString> &data) {
+    return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&
+           data["DATABASENAME"].isEmpty() && data["USERNAME"].isEmpty() &&
+           data["PASSWORD"].isEmpty();
 }

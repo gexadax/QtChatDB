@@ -53,7 +53,8 @@ else()
 endif()
 
 target_link_libraries(main PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(main PRIVATE Qt5::Sql)
+target_link_libraries(main PUBLIC Qt5::Sql)
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.

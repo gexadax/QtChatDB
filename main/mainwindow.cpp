@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "database.h"
 #include "./ui_mainwindow.h"
 #include "config.h"
 #include <QDir>
@@ -150,20 +151,16 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     } else {
         ui->tabWidget->setTabEnabled(1, false);
     }
+
+    Database db;
+    if (db.openConnection()) {
+        qDebug() << "The connection to the database is established";
+    } else {
+        qDebug() << "Connection to the database is not established";
+        if (db.createDatabase()) {
+            qDebug() << "The database was created successfully";
+        } else {
+            qDebug() << "Database creation error";
+        }
+    }
 }
-
-bool MainWindow::serverDataIsEmpty(const QMap<QString, QString> &data) {
-    return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&
-           data["DATABASENAME"].isEmpty() && data["USERNAME"].isEmpty() &&
-           data["PASSWORD"].isEmpty();
-}
-
-bool MainWindow::clientDataIsEmpty(const QMap<QString, QString> &data) {
-    return data["DATABASE"].isEmpty() && data["HOSTNAME"].isEmpty() &&
-           data["DATABASENAME"].isEmpty() && data["USERNAME"].isEmpty() &&
-           data["PASSWORD"].isEmpty();
-}
-
-
-
-

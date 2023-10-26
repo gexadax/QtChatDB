@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
 
 namespace Ui {
 class MainWindow;
@@ -20,8 +21,6 @@ private slots:
     void slot_pushButtonPreview_clicked();
     void slot_pushButtonFinish_clicked();
     void updateNextButtonState();
-    bool serverDataIsEmpty(const QMap<QString, QString> &data);
-    bool clientDataIsEmpty(const QMap<QString, QString> &data);
 
 private:
     Ui::MainWindow *ui;
@@ -29,5 +28,8 @@ private:
     void saveIniFile(const QString &filename, const QMap<QString, QString> &data);
 
 };
+
+bool serverDataIsEmpty(const QMap<QString, QString> &data);
+bool clientDataIsEmpty(const QMap<QString, QString> &data);
 
 #endif // MAINWINDOW_H
