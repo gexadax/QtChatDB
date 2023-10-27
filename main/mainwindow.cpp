@@ -153,14 +153,15 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     }
 
     Database db;
-    if (db.openConnection()) {
-        qDebug() << "The connection to the database is established";
-    } else {
-        qDebug() << "Connection to the database is not established";
-        if (db.createDatabase()) {
-            qDebug() << "The database was created successfully";
+    db.openConnection();
+    if (db.createDatabase()) {
+        qDebug() << "Database created successfully.";
+        if (db.createTable()) {
+            qDebug() << "Table created successfully.";
         } else {
-            qDebug() << "Database creation error";
+            qDebug() << "Error creating table.";
         }
+    } else {
+        qDebug() << "Error creating the database.";
     }
 }

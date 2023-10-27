@@ -31,7 +31,12 @@ bool Database::openConnection()
         return true;
     } else {
         qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
-        return false;
+        if (createDatabase()) {
+            return db.open();
+        } else {
+            qDebug() << "Failed to create database.";
+            return false;
+        }
     }
 }
 
@@ -42,21 +47,45 @@ void Database::closeConnection()
 
 bool Database::createDatabase()
 {
-    if (openConnection()) {
+    QMap<QString, QString> settings = config.readIniFile("server.ini");
+    QString host = settings["HOSTNAME"];
+    QString databaseName = settings["DATABASENAME"];
+    QString username = settings["USERNAME"];
+    QString password = settings["PASSWORD"];
+
+    qDebug() << "Read HOSTNAME from server.ini: " << host;
+    qDebug() << "Read DATABASENAME from server.ini: " << databaseName;
+    qDebug() << "Read USERNAME from server.ini: " << username;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
+    db.setHostName(host);
+    db.setDatabaseName("postgres");
+    db.setUserName(username);
+    db.setPassword(password);
+
+    if (db.open()) {
         QSqlQuery query;
-        if (query.exec("CREATE DATABASE chatdb")) {
+        QString createDbQuery = QString("CREATE DATABASE %1").arg(databaseName);
+
+        qDebug() << "Create DB query: " << createDbQuery;
+
+        if (query.exec(createDbQuery)) {
             qDebug() << "Database created successfully";
-            closeConnection();
             return true;
         } else {
             qDebug() << "Error creating database:" << query.lastError().text();
-            closeConnection();
         }
+
+        db.close();
     } else {
-        qDebug() << "Error opening connection to the database";
+        qDebug() << "Failed to open a connection to PostgreSQL: " << db.lastError().text();
     }
+
     return false;
 }
+
+
+
 
 bool Database::createTable()
 {
