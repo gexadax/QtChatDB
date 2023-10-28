@@ -16,16 +16,16 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
-     <widget class="QStackedWidget" name="stackedWidget">
+     <widget class="QStackedWidget" name="stackedWidgetConfig">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
-      <widget class="QWidget" name="page">
+      <widget class="QWidget" name="checkBoxPage">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <layout class="QGridLayout" name="gridLayout">
+         <layout class="QGridLayout" name="gridLayoutCheckBox">
           <item row="0" column="0">
-           <layout class="QFormLayout" name="formLayout_2">
+           <layout class="QFormLayout" name="formLayoutCheckBox">
             <item row="0" column="0">
              <widget class="QCheckBox" name="checkBoxServer">
               <property name="text">
@@ -43,9 +43,9 @@
            </layout>
           </item>
           <item row="1" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QHBoxLayout" name="horizontalLayoutCheckBox">
             <item>
-             <spacer name="horizontalSpacer">
+             <spacer name="horizontalSpacerCheckBox">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -76,10 +76,10 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_2">
+      <widget class="QWidget" name="configPage">
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="labelConfig">
           <property name="text">
            <string>You can change the default values</string>
           </property>
@@ -166,7 +166,7 @@
            </widget>
           </item>
           <item row="5" column="1">
-           <spacer name="verticalSpacer">
+           <spacer name="verticalSpacerConfig">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -193,7 +193,7 @@
         <item row="2" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <spacer name="horizontalSpacer_2">
+           <spacer name="horizontalSpacerConfig">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -246,7 +246,7 @@
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="serverTab">
          <attribute name="title">
@@ -257,6 +257,172 @@
          <attribute name="title">
           <string>Client</string>
          </attribute>
+         <widget class="QStackedWidget" name="stackedWidgetLogin">
+          <property name="geometry">
+           <rect>
+            <x>-1</x>
+            <y>9</y>
+            <width>421</width>
+            <height>251</height>
+           </rect>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="pageLogin">
+           <widget class="QWidget" name="layoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>19</x>
+              <y>9</y>
+              <width>342</width>
+              <height>112</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayoutLogin">
+             <item>
+              <layout class="QFormLayout" name="formLayoutLogin">
+               <item row="1" column="0">
+                <widget class="QLabel" name="labelLogin">
+                 <property name="text">
+                  <string>Login:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEditLogin"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="labelPassword_2">
+                 <property name="text">
+                  <string>Password:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEditPassword_2"/>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="labelLoginRegister">
+                 <property name="text">
+                  <string>To enter the chat, enter your username and password</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QPushButton" name="pushButtonRegister">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Register</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonCancel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Cancel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonOk">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>OK</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="pageRegister">
+           <widget class="QWidget" name="">
+            <property name="geometry">
+             <rect>
+              <x>8</x>
+              <y>20</y>
+              <width>247</width>
+              <height>138</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="0" colspan="2">
+              <widget class="QLabel" name="labelRegister">
+               <property name="text">
+                <string>To register, enter your username and password</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="labelRegisterLogin">
+               <property name="text">
+                <string>Login:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lineEditRegisterLogin"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="labelRegisterPassword">
+               <property name="text">
+                <string>Password:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="lineEditRegisterPassword"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="labelConfirmPassword">
+               <property name="text">
+                <string>Congirm password:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="lineEditRegisterConfirmPassword"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QPushButton" name="pushButtonRegisterCancel">
+               <property name="text">
+                <string>Cancel</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QPushButton" name="pushButtonRegisterOk">
+               <property name="text">
+                <string>OK</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </widget>
         </widget>
        </widget>
       </widget>

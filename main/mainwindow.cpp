@@ -36,10 +36,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
 
     if (serverIniExists || clientIniExists) {
-        ui->stackedWidget->setCurrentIndex(2);
+        ui->stackedWidgetConfig->setCurrentIndex(2);
         resize(800, 600);
     } else {
-        ui->stackedWidget->setCurrentIndex(0);
+        ui->stackedWidgetConfig->setCurrentIndex(0);
     }
 }
 
@@ -82,13 +82,13 @@ void MainWindow::slot_pushButtonNext_clicked() {
         ui->lineEditPassword->setPlaceholderText(clientData["PASSWORD"]);
     }
 
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidgetConfig->setCurrentIndex(1);
 }
 
 void MainWindow::slot_pushButtonPreview_clicked() {
-    int currentIndex = ui->stackedWidget->currentIndex();
+    int currentIndex = ui->stackedWidgetConfig->currentIndex();
     if (currentIndex > 0) {
-        ui->stackedWidget->setCurrentIndex(currentIndex - 1);
+        ui->stackedWidgetConfig->setCurrentIndex(currentIndex - 1);
     }
 
     QDir dir(".");
@@ -120,7 +120,7 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     bool isServerChecked = ui->checkBoxServer->isChecked();
     bool isClientChecked = ui->checkBoxClient->isChecked();
 
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidgetConfig->setCurrentIndex(2);
     resize(800, 600);
 
     QFile serverFile("server.ini");
@@ -165,3 +165,9 @@ void MainWindow::slot_pushButtonFinish_clicked() {
         qDebug() << "Error creating the database.";
     }
 }
+
+void MainWindow::on_pushButtonRegister_clicked()
+{
+
+}
+
