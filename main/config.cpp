@@ -15,7 +15,7 @@ void Config::createServerIni(const QString &filename) {
         stream << "HOSTNAME: localhost\n";
         stream << "DATABASENAME: chatdb\n";
         stream << "USERNAME: postgres\n";
-        stream << "PASSWORD: dfbdvtgh\n";
+        stream << "PASSWORD: postgres\n";
         file.close();
     } else {
         qDebug() << "Error opening file " << filename;
