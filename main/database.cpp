@@ -9,6 +9,10 @@ Database::Database() {
 
 Database::~Database() {}
 
+void Database::closeConnection() {
+    db.close();
+}
+
 bool Database::openConnection() {
     QMap<QString, QString> settings = config.readIniFile("server.ini");
     QString host = settings["HOSTNAME"];
@@ -16,40 +20,26 @@ bool Database::openConnection() {
     QString username = settings["USERNAME"];
     QString password = settings["PASSWORD"];
 
-    db.setHostName(host);
-    db.setDatabaseName(databaseName);
-    db.setUserName(username);
-    db.setPassword(password);
-
     if (db.isOpen()) {
         qDebug() << "Database connection is already open";
         return true;
     } else {
+        db.setHostName(host);
+        db.setDatabaseName(databaseName);
+        db.setUserName(username);
+        db.setPassword(password);
+
         db.close();
         if (db.open()) {
             qDebug() << "Database connection opened successfully";
             return true;
         } else {
             qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
-            if (createDatabase()) {
-                qDebug() << "Database created successfully. Attempting to connect...";
-                if (db.open()) {
-                    qDebug() << "Database connection opened successfully";
-                    return true;
-                } else {
-                    qDebug() << "Failed to open database connection after creating.";
-                    return false;
-                }
-            } else {
-                qDebug() << "Failed to create the database.";
-                return false;
-            }
+            createDatabase();
+            db.open();
+            return false;
         }
     }
-}
-
-void Database::closeConnection() {
-    db.close();
 }
 
 bool Database::createDatabase() {
@@ -76,27 +66,8 @@ bool Database::createDatabase() {
 
         if (query.exec(createDbQuery)) {
             qDebug() << "Database created successfully";
-
-//            db.close();
-
-            db.setDatabaseName(databaseName);
-            if (db.open()) {
-                if (createTable()) {
-                    qDebug() << "Tables created successfully";
-                    return true;
-                } else {
-                    qDebug() << "Error creating tables";
-                }
-            } else {
-                qDebug() << "Failed to open a connection to the newly created database: " << db.lastError().text();
-            }
-        } else {
-            qDebug() << "Error creating the database:" << query.lastError().text();
         }
-    } else {
-        qDebug() << "Failed to open a connection to PostgreSQL: " << db.lastError().text();
     }
-
     return false;
 }
 
@@ -192,5 +163,4 @@ QString Database::getQemail(QString Qid)
         Qmale = model->data(index).toString();
     };
     return Qmale;
-
 }

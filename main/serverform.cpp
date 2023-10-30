@@ -18,7 +18,7 @@ ServerForm::ServerForm(QWidget *parent)
     connect(ui->pushButtonBan, &QPushButton::clicked, this, &ServerForm::slot_pushButtonBan_clicked);
     connect(ui->pushButtonChoise, &QPushButton::clicked, this, &ServerForm::slot_pushButtonChoise_clicked);
     connect(timer, &QTimer::timeout, this, &ServerForm::updateChats);
-//    timer->start(10);
+    timer->start(10);
     db = new Database();
 }
 

@@ -135,16 +135,7 @@ void MainWindow::slot_pushButtonFinish_clicked() {
 
     Database db;
     db.openConnection();
-    if (db.createDatabase()) {
-        qDebug() << "Database created successfully.";
-        if (db.createTable()) {
-            qDebug() << "Table created successfully.";
-        } else {
-            qDebug() << "Error creating table.";
-        }
-    } else {
-        qDebug() << "Error creating the database.";
-    }
+
 }
 
 
