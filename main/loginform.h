@@ -2,6 +2,7 @@
 #define LOGINFORM_H
 
 #include <QWidget>
+#include "ui_loginform.h"
 
 class LoginFormWindow : public QWidget {
     Q_OBJECT

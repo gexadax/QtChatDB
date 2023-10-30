@@ -120,8 +120,9 @@ void MainWindow::slot_pushButtonFinish_clicked() {
 //    bool serverIniExists = QFile::exists("server.ini");
 //    bool clientIniExists = QFile::exists("client.ini");
 
+
     if (isServerChecked) {
-        ServerFormWindow *serverForm = new ServerFormWindow;
+        ServerForm *serverForm = new ServerForm;
         serverForm->show();
     }
 

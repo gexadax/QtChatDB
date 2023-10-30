@@ -1,21 +1,29 @@
 #ifndef SERVERFORM_H
 #define SERVERFORM_H
 
-#include <QWidget>
-#include "ui_serverform.h"
+#include "Database.h"
+#include <QDialog>
 
-class ServerFormWindow : public QWidget {
+QT_BEGIN_NAMESPACE
+namespace Ui { class ServerForm; }
+QT_END_NAMESPACE
+
+class ServerForm : public QDialog
+{
     Q_OBJECT
 
 public:
-    ServerFormWindow(QWidget *parent = nullptr);
+    ServerForm(QWidget *parent = nullptr);
+    ~ServerForm();
+    static int kInstanceCount;
+    void updateChats();
+
+private slots:
+    void on_Choose_userButton_clicked();
+    void on_BanButton_clicked();
 
 private:
     Ui::ServerForm *ui;
-
-private slots:
-    void onPushButtonClicked();
-    void onPushButtonBanClicked();
 };
 
 #endif // SERVERFORM_H
