@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include "database.h"
+#include "serverform.h"
+#include "clientform.h"
+#include "loginform.h"
 #include "./ui_mainwindow.h"
 #include "config.h"
 #include <QDir>
@@ -18,29 +21,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     filters << "*.ini";
     QStringList iniFiles = dir.entryList(filters);
 
-    bool serverIniExists = iniFiles.contains("server.ini");
-    bool clientIniExists = iniFiles.contains("client.ini");
-
-    QFile serverFile("server.ini");
-    if (serverFile.exists()) {
-        ui->tabWidget->setTabEnabled(0, true);
-    } else {
-        ui->tabWidget->setTabEnabled(0, false);
-    }
-
-    QFile clientFile("client.ini");
-    if (clientFile.exists()) {
-        ui->tabWidget->setTabEnabled(1, true);
-    } else {
-        ui->tabWidget->setTabEnabled(1, false);
-    }
-
-    if (serverIniExists || clientIniExists) {
-        ui->stackedWidgetConfig->setCurrentIndex(2);
-        resize(800, 600);
-    } else {
-        ui->stackedWidgetConfig->setCurrentIndex(0);
-    }
 }
 
 MainWindow::~MainWindow() {
@@ -120,9 +100,6 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     bool isServerChecked = ui->checkBoxServer->isChecked();
     bool isClientChecked = ui->checkBoxClient->isChecked();
 
-    ui->stackedWidgetConfig->setCurrentIndex(2);
-    resize(800, 600);
-
     QFile serverFile("server.ini");
     QFile clientFile("client.ini");
 
@@ -140,17 +117,20 @@ void MainWindow::slot_pushButtonFinish_clicked() {
         }
     }
 
-    if (serverFile.exists()) {
-        ui->tabWidget->setTabEnabled(0, true);
-    } else {
-        ui->tabWidget->setTabEnabled(0, false);
+//    bool serverIniExists = QFile::exists("server.ini");
+//    bool clientIniExists = QFile::exists("client.ini");
+
+    if (isServerChecked) {
+        ServerFormWindow *serverForm = new ServerFormWindow;
+        serverForm->show();
     }
 
-    if (clientFile.exists()) {
-        ui->tabWidget->setTabEnabled(1, true);
-    } else {
-        ui->tabWidget->setTabEnabled(1, false);
+    if (isClientChecked) {
+        LoginFormWindow *loginForm = new LoginFormWindow;
+        loginForm->show();
     }
+
+    this->close();
 
     Database db;
     db.openConnection();
@@ -166,8 +146,4 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     }
 }
 
-void MainWindow::on_pushButtonRegister_clicked()
-{
-
-}
 

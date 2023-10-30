@@ -22,7 +22,6 @@ private slots:
     void slot_pushButtonFinish_clicked();
     void updateNextButtonState();
 
-    void on_pushButtonRegister_clicked();
 
 private:
     Ui::MainWindow *ui;
