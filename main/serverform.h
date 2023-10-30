@@ -19,8 +19,8 @@ public:
     void updateChats();
 
 private slots:
-    void on_Choose_userButton_clicked();
-    void on_BanButton_clicked();
+    void slot_pushButtonChoise_clicked();
+    void slot_pushButtonBan_clicked();
 
 private:
     Ui::ServerForm *ui;

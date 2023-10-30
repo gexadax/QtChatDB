@@ -15,6 +15,8 @@ ServerForm::ServerForm(QWidget *parent)
     ui->setupUi(this);
     kInstanceCount++;
     auto timer = new QTimer(this);
+    connect(ui->pushButtonBan, &QPushButton::clicked, this, &ServerForm::slot_pushButtonBan_clicked);
+    connect(ui->pushButtonChoise, &QPushButton::clicked, this, &ServerForm::slot_pushButtonChoise_clicked);
     connect(timer, &QTimer::timeout, this, &ServerForm::updateChats);
     timer->start(10);
 }
@@ -50,19 +52,19 @@ void ServerForm::updateChats()
     chat.clear();
 }
 
-void ServerForm::on_Choose_userButton_clicked()
+void ServerForm::slot_pushButtonChoise_clicked()
 {
     QDialog dial(this);
     dial.setModal(true);
-    auto l=new QVBoxLayout();
+    auto l = new QVBoxLayout();
     dial.setLayout(l);
-    auto userListWgt=new QListWidget(&dial);
+    auto userListWgt = new QListWidget(&dial);
     l->addWidget(userListWgt);
-    auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);//auto - QDialogButtonBox
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dial);
     l->addWidget(buttonBox);
 
-    connect(buttonBox,&QDialogButtonBox::accepted, &dial,&QDialog::accept);
-    connect(buttonBox,&QDialogButtonBox::rejected, &dial,&QDialog::reject);
+    connect(buttonBox, &QDialogButtonBox::accepted, &dial, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, &dial, &QDialog::reject);
 
     const auto userList = getUserList();
     for (const auto& user : userList) {
@@ -71,30 +73,30 @@ void ServerForm::on_Choose_userButton_clicked()
 
     userListWgt->setCurrentRow(0);
 
-    auto result= dial.exec();
+    auto result = dial.exec();
 
-    if(result==QDialog::Accepted && userListWgt->currentItem())
-    {   QSqlQueryModel model;
+    if (result == QDialog::Accepted && userListWgt->currentItem()) {
+        QSqlQueryModel model;
         QString chat;
         auto email_receiver = userListWgt->currentItem()->text();
-        model.setQuery("SELECT id_sender,id_receiver,message "
+        model.setQuery("SELECT id_sender, id_receiver, message "
                        "FROM history_private_data "
-                       " WHERE (id_sender=\'"+getid(email_receiver)+"\') OR(id_receiver=\'"+getid(email_receiver)+"\') ");
-
+                       "WHERE (id_sender='" + getid(email_receiver) + "') OR (id_receiver='" + getid(email_receiver) + "')");
 
         for (int row = 0; row < model.rowCount(); ++row) {
             QString Qid = model.record(row).value("id_sender").toString();
-            QString Qemail=getQemail(Qid);
+            QString Qemail = getQemail(Qid);
             QString message = model.record(row).value("message").toString();
-
             chat.append(Qemail + ":" + message + "\n");
         }
 
-        if(ui->privateChatBrowser->toPlainText()!=chat)
-            ui->privateChatBrowser->setText(chat);}
+        if (ui->privateChatBrowser->toPlainText() != chat) {
+            ui->privateChatBrowser->setText(chat);
+        }
+    }
 }
 
-void ServerForm::on_BanButton_clicked()
+void ServerForm::slot_pushButtonBan_clicked()
 {
     QDialog dial(this);
     dial.setModal(true);
@@ -102,7 +104,7 @@ void ServerForm::on_BanButton_clicked()
     dial.setLayout(l);
     auto userListWgt=new QListWidget(&dial);
     l->addWidget(userListWgt);
-    auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);//auto - QDialogButtonBox
+    auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);
     l->addWidget(buttonBox);
 
     connect(buttonBox,&QDialogButtonBox::accepted, &dial,&QDialog::accept);
