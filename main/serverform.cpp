@@ -9,7 +9,7 @@
 int ServerForm::kInstanceCount = 0;
 
 ServerForm::ServerForm(QWidget *parent)
-    : QDialog(parent)
+        : QDialog(parent)
     , ui(new Ui::ServerForm)
 {
     ui->setupUi(this);
@@ -18,12 +18,14 @@ ServerForm::ServerForm(QWidget *parent)
     connect(ui->pushButtonBan, &QPushButton::clicked, this, &ServerForm::slot_pushButtonBan_clicked);
     connect(ui->pushButtonChoise, &QPushButton::clicked, this, &ServerForm::slot_pushButtonChoise_clicked);
     connect(timer, &QTimer::timeout, this, &ServerForm::updateChats);
-    timer->start(10);
+//    timer->start(10);
+    db = new Database();
 }
 
 ServerForm::~ServerForm()
 {
     delete ui;
+    delete db;
     kInstanceCount--;
     if (kInstanceCount <= 0) {
         qApp->exit(0);
@@ -66,10 +68,11 @@ void ServerForm::slot_pushButtonChoise_clicked()
     connect(buttonBox, &QDialogButtonBox::accepted, &dial, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, &dial, &QDialog::reject);
 
-    const auto userList = getUserList();
+    const auto& userList = db->getUserList();
     for (const auto& user : userList) {
         userListWgt->addItem(QString::fromStdString(user));
     }
+
 
     userListWgt->setCurrentRow(0);
 
@@ -81,11 +84,11 @@ void ServerForm::slot_pushButtonChoise_clicked()
         auto email_receiver = userListWgt->currentItem()->text();
         model.setQuery("SELECT id_sender, id_receiver, message "
                        "FROM history_private_data "
-                       "WHERE (id_sender='" + getid(email_receiver) + "') OR (id_receiver='" + getid(email_receiver) + "')");
+                       "WHERE (id_sender='" + db->getid(email_receiver) + "') OR (id_receiver='" + db->getid(email_receiver) + "')");
 
         for (int row = 0; row < model.rowCount(); ++row) {
             QString Qid = model.record(row).value("id_sender").toString();
-            QString Qemail = getQemail(Qid);
+            QString Qemail = db->getQemail(Qid);
             QString message = model.record(row).value("message").toString();
             chat.append(Qemail + ":" + message + "\n");
         }
@@ -110,9 +113,10 @@ void ServerForm::slot_pushButtonBan_clicked()
     connect(buttonBox,&QDialogButtonBox::accepted, &dial,&QDialog::accept);
     connect(buttonBox,&QDialogButtonBox::rejected, &dial,&QDialog::reject);
 
-    auto userList=getUserList();
-    for(auto user:userList)
-    {userListWgt->addItem(QString::fromStdString(user));};
+    const auto& userList = db->getUserList();
+    for (const auto& user : userList) {
+        userListWgt->addItem(QString::fromStdString(user));
+    }
 
     userListWgt->setCurrentRow(0);
 

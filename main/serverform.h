@@ -24,6 +24,7 @@ private slots:
 
 private:
     Ui::ServerForm *ui;
+    Database *db;
 };
 
 #endif // SERVERFORM_H

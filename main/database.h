@@ -23,14 +23,13 @@ public:
     bool createDatabase();
     bool createTable();
 
+    std::vector<std::string> getUserList();
+    QString getid(QString Qemail);
+    QString getQemail(QString Qid);
 
 private:
     QSqlDatabase db;
     Config config;
 };
-
-std::vector<std::string> getUserList();
-QString getid(QString Qemail);
-QString getQemail(QString Qid);
 
 #endif // DATABASE_H

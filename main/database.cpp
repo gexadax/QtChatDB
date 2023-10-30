@@ -7,9 +7,7 @@ Database::Database() {
     db = QSqlDatabase::addDatabase("QPSQL");
 }
 
-Database::~Database() {
-    closeConnection();
-}
+Database::~Database() {}
 
 bool Database::openConnection() {
     QMap<QString, QString> settings = config.readIniFile("server.ini");
@@ -23,16 +21,29 @@ bool Database::openConnection() {
     db.setUserName(username);
     db.setPassword(password);
 
-    if (db.open()) {
-        qDebug() << "Database connection opened successfully";
+    if (db.isOpen()) {
+        qDebug() << "Database connection is already open";
         return true;
     } else {
-        qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
-        if (createDatabase()) {
-            return db.open();
+        db.close();
+        if (db.open()) {
+            qDebug() << "Database connection opened successfully";
+            return true;
         } else {
-            qDebug() << "Failed to create the database.";
-            return false;
+            qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
+            if (createDatabase()) {
+                qDebug() << "Database created successfully. Attempting to connect...";
+                if (db.open()) {
+                    qDebug() << "Database connection opened successfully";
+                    return true;
+                } else {
+                    qDebug() << "Failed to open database connection after creating.";
+                    return false;
+                }
+            } else {
+                qDebug() << "Failed to create the database.";
+                return false;
+            }
         }
     }
 }
@@ -66,7 +77,7 @@ bool Database::createDatabase() {
         if (query.exec(createDbQuery)) {
             qDebug() << "Database created successfully";
 
-            db.close();
+//            db.close();
 
             db.setDatabaseName(databaseName);
             if (db.open()) {
@@ -89,65 +100,59 @@ bool Database::createDatabase() {
     return false;
 }
 
-
-
 bool Database::createTable() {
-    if (openConnection()) {
-        QSqlQuery query;
-        if (query.exec("CREATE TABLE Registration_DATA ("
-                       "id_USER SERIAL,"
-                       "Email character varying(200) NOT NULL,"
-                       "status character varying(100) CHECK (status IN ('active', 'inactive')) default 'active');") &&
-            query.exec("CREATE TABLE Authorization_DATA ("
-                       "id SERIAL, id_USER integer NOT NULL, "
-                       "Password character varying(200) default NULL);") &&
-            query.exec("CREATE TABLE History_DATA ("
-                       "id_Message SERIAL,id_Sender integer NOT NULL, "
-                       "Message text NOT NULL,SEND_ON date Default current_date);") &&
-            query.exec("CREATE TABLE History_private_DATA ("
-                       "id_Message SERIAL,id_Sender integer NOT NULL, id_Receiver integer NOT NULL, "
-                       "Message text NOT NULL,SEND_ON date Default current_date);") &&
-            query.exec("CREATE OR REPLACE FUNCTION auto_id() "
-                       "RETURNS TRIGGER AS $auto_id$ "
-                       "BEGIN "
-                       "   INSERT INTO authorization_data (id_user) "
-                       "   (SELECT registration_data.id_user FROM registration_data "
-                       "   LEFT OUTER JOIN authorization_data ON registration_data.id_user = authorization_data.id_user "
-                       "   WHERE authorization_data.id IS NULL); "
-                       "   RETURN NEW; "
-                       "END; "
-                       "$auto_id$ LANGUAGE plpgsql;") &&
-            query.exec("CREATE TRIGGER auto_id AFTER INSERT OR UPDATE ON registration_data "
-                       "FOR EACH ROW EXECUTE PROCEDURE auto_id();") &&
-            query.exec("CREATE OR REPLACE FUNCTION delete_id() RETURNS TRIGGER AS $delete_id_authorization_data$ "
-                       "BEGIN "
-                       "  DELETE FROM authorization_data "
-                       "  WHERE id IN (SELECT authorization_data.id_user "
-                       "               FROM authorization_data "
-                       "               LEFT OUTER JOIN registration_data ON authorization_data.id_user = registration_data.id_user "
-                       "               WHERE registration_data.status='inactive'); "
-                       "  RETURN NEW; "
-                       "END; "
-                       "$delete_id_authorization_data$ LANGUAGE plpgsql;") &&
-            query.exec("CREATE TRIGGER delete_id AFTER UPDATE "
-                       "ON registration_data FOR EACH ROW EXECUTE PROCEDURE delete_id();") &&
-            query.exec("ALTER TABLE registration_data ADD CONSTRAINT id_user PRIMARY KEY (id_user);") &&
-            query.exec("ALTER TABLE authorization_data ADD CONSTRAINT id PRIMARY KEY (id);") &&
-            query.exec("ALTER TABLE history_data ADD CONSTRAINT id_message PRIMARY KEY (id_message);") &&
-            query.exec("ALTER TABLE history_private_data ADD CONSTRAINT id_message PRIMARY KEY (id_message);") &&
-            query.exec("ALTER TABLE authorization_data ADD FOREIGN KEY (id_user) REFERENCES registration_data (id_user);") &&
-            query.exec("ALTER TABLE history_data ADD FOREIGN KEY (id_sender) REFERENCES registration_data (id_user);") &&
-            query.exec("ALTER TABLE history_private_data ADD FOREIGN KEY (id_sender) REFERENCES registration_data (id_user);") &&
-            query.exec("ALTER TABLE history_private_data ADD FOREIGN KEY (id_receiver) REFERENCES registration_data (id_user);")) {
-            closeConnection();
-            return true;
-        }
-        closeConnection();
+    QSqlQuery query(db);
+    if (query.exec("CREATE TABLE Registration_DATA ("
+                   "id_USER SERIAL,"
+                   "Email character varying(200) NOT NULL,"
+                   "status character varying(100) CHECK (status IN ('active', 'inactive')) default 'active');") &&
+        query.exec("CREATE TABLE Authorization_DATA ("
+                   "id SERIAL, id_USER integer NOT NULL, "
+                   "Password character varying(200) default NULL);") &&
+        query.exec("CREATE TABLE History_DATA ("
+                   "id_Message SERIAL,id_Sender integer NOT NULL, "
+                   "Message text NOT NULL,SEND_ON date Default current_date);") &&
+        query.exec("CREATE TABLE History_private_DATA ("
+                   "id_Message SERIAL,id_Sender integer NOT NULL, id_Receiver integer NOT NULL, "
+                   "Message text NOT NULL,SEND_ON date Default current_date);") &&
+        query.exec("CREATE OR REPLACE FUNCTION auto_id() "
+                   "RETURNS TRIGGER AS $auto_id$ "
+                   "BEGIN "
+                   "   INSERT INTO authorization_data (id_user) "
+                   "   (SELECT registration_data.id_user FROM registration_data "
+                   "   LEFT OUTER JOIN authorization_data ON registration_data.id_user = authorization_data.id_user "
+                   "   WHERE authorization_data.id IS NULL); "
+                   "   RETURN NEW; "
+                   "END; "
+                   "$auto_id$ LANGUAGE plpgsql;") &&
+        query.exec("CREATE TRIGGER auto_id AFTER INSERT OR UPDATE ON registration_data "
+                   "FOR EACH ROW EXECUTE PROCEDURE auto_id();") &&
+        query.exec("CREATE OR REPLACE FUNCTION delete_id() RETURNS TRIGGER AS $delete_id_authorization_data$ "
+                   "BEGIN "
+                   "  DELETE FROM authorization_data "
+                   "  WHERE id IN (SELECT authorization_data.id_user "
+                   "               FROM authorization_data "
+                   "               LEFT OUTER JOIN registration_data ON authorization_data.id_user = registration_data.id_user "
+                   "               WHERE registration_data.status='inactive'); "
+                   "  RETURN NEW; "
+                   "END; "
+                   "$delete_id_authorization_data$ LANGUAGE plpgsql;") &&
+        query.exec("CREATE TRIGGER delete_id AFTER UPDATE "
+                   "ON registration_data FOR EACH ROW EXECUTE PROCEDURE delete_id();") &&
+        query.exec("ALTER TABLE registration_data ADD CONSTRAINT id_user PRIMARY KEY (id_user);") &&
+        query.exec("ALTER TABLE authorization_data ADD CONSTRAINT id PRIMARY KEY (id);") &&
+        query.exec("ALTER TABLE history_data ADD CONSTRAINT id_message PRIMARY KEY (id_message);") &&
+        query.exec("ALTER TABLE history_private_data ADD CONSTRAINT id_message PRIMARY KEY (id_message);") &&
+        query.exec("ALTER TABLE authorization_data ADD FOREIGN KEY (id_user) REFERENCES registration_data (id_user);") &&
+        query.exec("ALTER TABLE history_data ADD FOREIGN KEY (id_sender) REFERENCES registration_data (id_user);") &&
+        query.exec("ALTER TABLE history_private_data ADD FOREIGN KEY (id_sender) REFERENCES registration_data (id_user);") &&
+        query.exec("ALTER TABLE history_private_data ADD FOREIGN KEY (id_receiver) REFERENCES registration_data (id_user);")) {
+        return true;
     }
     return false;
 }
 
-std::vector<std::string> getUserList()
+std::vector<std::string> Database::getUserList()
 {    std::vector<std::string> userList;
     std::vector<QString> QuserList;
     QSqlQueryModel *model = new QSqlQueryModel;
@@ -163,7 +168,7 @@ std::vector<std::string> getUserList()
     return userList;
 }
 
-QString getid(QString Qemail)
+QString Database::getid(QString Qemail)
 {
     QString id_user_sender;
     QSqlQueryModel *model = new QSqlQueryModel;
@@ -176,7 +181,7 @@ QString getid(QString Qemail)
 
 }
 
-QString getQemail(QString Qid)
+QString Database::getQemail(QString Qid)
 {
     QString Qmale;
     QSqlQueryModel *model = new QSqlQueryModel;
