@@ -136,15 +136,15 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     }
 
     if (isServerChecked || isClientChecked) {
-        // Попытка установить соединение с базой данных
-        if (db->openConnection()) {
-            // Если соединение успешно установлено, создаем базу данных и таблицы
-            db->createDatabase();
-            db->createTable();
+        if (db->createDatabase()) {
+            qDebug() << "Database created successfully.";
+            if (db->createTable()) {
+                qDebug() << "Table created successfully.";
+            } else {
+                qDebug() << "Error creating table.";
+            }
         } else {
-            // Если соединение не установлено, закрываем существующее соединение
-            db->closeConnection();
-            // И затем создаем таблицы
+            qDebug() << "Error creating the database.";
         }
     }
 
