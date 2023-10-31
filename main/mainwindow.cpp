@@ -20,10 +20,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QStringList filters;
     filters << "*.ini";
     QStringList iniFiles = dir.entryList(filters);
-
+    db = new Database;
 }
 
 MainWindow::~MainWindow() {
+    if (db) {
+        delete db;
+    }
     delete ui;
 }
 
@@ -132,11 +135,20 @@ void MainWindow::slot_pushButtonFinish_clicked() {
         QFormLayout* layout = loginForm->getFormLayoutLogin();
     }
 
+    if (isServerChecked || isClientChecked) {
+        // Попытка установить соединение с базой данных
+        if (db->openConnection()) {
+            // Если соединение успешно установлено, создаем базу данных и таблицы
+            db->createDatabase();
+            db->createTable();
+        } else {
+            // Если соединение не установлено, закрываем существующее соединение
+            db->closeConnection();
+            // И затем создаем таблицы
+        }
+    }
+
     this->close();
-
-    Database db;
-    db.openConnection();
-
 }
 
 

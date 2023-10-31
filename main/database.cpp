@@ -7,10 +7,12 @@ Database::Database() {
     db = QSqlDatabase::addDatabase("QPSQL");
 }
 
-Database::~Database() {}
+Database::~Database() {
+    closeConnection();
+}
 
 void Database::closeConnection() {
-    db.close();
+//    db.close();
 }
 
 bool Database::openConnection() {
@@ -53,8 +55,10 @@ bool Database::createDatabase() {
     qDebug() << "Read DATABASENAME from server.ini: " << databaseName;
     qDebug() << "Read USERNAME from server.ini: " << username;
 
+    db = QSqlDatabase::addDatabase("QPSQL"); // Добавьте эту строку, чтобы создать новое соединение
+
     db.setHostName(host);
-    db.setDatabaseName("postgres");
+    db.setDatabaseName("postgres"); // Измените на "postgres" для создания базы данных
     db.setUserName(username);
     db.setPassword(password);
 
@@ -66,10 +70,19 @@ bool Database::createDatabase() {
 
         if (query.exec(createDbQuery)) {
             qDebug() << "Database created successfully";
+
+            // Вызываем функцию createTable, чтобы создать таблицы в новой базе данных
+            createTable();
+        } else {
+            qDebug() << "Failed to create the database. Error: " << query.lastError().text();
         }
+    } else {
+        qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
+        return false;
     }
-    return false;
+    return true; // Изменено на true, чтобы указать,зменено на true, чтобы указать, что база данных успешно создана
 }
+
 
 bool Database::createTable() {
     QSqlQuery query(db);

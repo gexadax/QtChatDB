@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "database.h"
 #include <QMainWindow>
 #include <QMap>
 
@@ -25,6 +26,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    Database *db;
     void createServerIni(const QString &filename);
     void saveIniFile(const QString &filename, const QMap<QString, QString> &data);
 
