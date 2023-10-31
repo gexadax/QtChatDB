@@ -2,14 +2,23 @@
 #define LOGINFORM_H
 
 #include <QWidget>
-#include "ui_loginform.h"
+#include <QFormLayout>
 
-class LoginFormWindow : public QWidget {
+namespace Ui {
+class LoginForm;
+}
+
+class LoginForm : public QWidget
+{
     Q_OBJECT
 
 public:
-    LoginFormWindow(QWidget *parent = nullptr);
+    explicit LoginForm(QWidget *parent = nullptr);
+    ~LoginForm();
+    QFormLayout* getFormLayoutLogin();
 
+private:
+    Ui::LoginForm *ui;
 };
 
-#endif
+#endif // LOGINFORM_H

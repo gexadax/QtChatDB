@@ -17,16 +17,16 @@
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageLogin">
       <widget class="QWidget" name="formLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>17</y>
-         <width>444</width>
-         <height>114</height>
+         <x>0</x>
+         <y>10</y>
+         <width>309</width>
+         <height>121</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayoutLogin">
@@ -38,7 +38,14 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEditLogin"/>
+         <widget class="QLineEdit" name="lineEditLogin">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="labelPassword">
@@ -48,7 +55,17 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEditPassword"/>
+         <widget class="QLineEdit" name="lineEditPassword">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="labelLoginText">
@@ -104,10 +121,10 @@
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>292</width>
-         <height>138</height>
+         <x>0</x>
+         <y>20</y>
+         <width>301</width>
+         <height>141</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayoutRegistration">
@@ -150,6 +167,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
          </widget>
         </item>
         <item row="3" column="0">
@@ -166,6 +186,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
           </property>
          </widget>
         </item>

@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "database.h"
 #include "serverform.h"
-#include "clientform.h"
 #include "loginform.h"
+#include "clientform.h"
 #include "./ui_mainwindow.h"
 #include "config.h"
 #include <QDir>
@@ -117,8 +117,8 @@ void MainWindow::slot_pushButtonFinish_clicked() {
         }
     }
 
-//    bool serverIniExists = QFile::exists("server.ini");
-//    bool clientIniExists = QFile::exists("client.ini");
+    bool serverIniExists = QFile::exists("server.ini");
+    bool clientIniExists = QFile::exists("client.ini");
 
 
     if (isServerChecked) {
@@ -127,8 +127,9 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     }
 
     if (isClientChecked) {
-        LoginFormWindow *loginForm = new LoginFormWindow;
+        LoginForm *loginForm = new LoginForm;
         loginForm->show();
+        QFormLayout* layout = loginForm->getFormLayoutLogin();
     }
 
     this->close();
