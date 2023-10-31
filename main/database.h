@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include <QWidget>
 
+int addUser(std::string email);
+
 class Database
 {
 public:
@@ -22,7 +24,7 @@ public:
     void closeConnection();
     bool createDatabase();
     bool createTable();
-
+    int checkPassword(std::string email,std::string password);
     std::vector<std::string> getUserList();
     QString getid(QString Qemail);
     QString getQemail(QString Qid);

@@ -194,3 +194,43 @@ QString Database::getQemail(QString Qid)
     };
     return Qmale;
 }
+
+int Database::checkPassword(std::string email, std::string password)
+{
+    int j=0;//0 - email не верный
+    QString Qemail = QString::fromStdString(email);
+    QString Qpassword = QString::fromStdString(password);
+    QString id_user;
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
+    if (model->rowCount() > 0)
+    {    j=1;
+        QModelIndex index = model->index(0, 0);
+        id_user = model->data(index).toString();
+        model->setQuery("SELECT * FROM authorization_data WHERE (id_user=\'"+id_user+"\') AND (password=\'"+Qpassword+"\') ");
+        if (model->rowCount() > 0)
+        {
+            j=2;
+        }
+    }
+    return j;
+}
+
+int addUser(std::string email)
+{
+    int j=0;
+    for (int i = 0; i < email.length(); i++)
+    {
+        if (email[i] == '@') { j=1; }
+    };
+
+    QString Qemail = QString::fromStdString(email);
+
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT email FROM registration_data WHERE (email=\'"+Qemail+"\')");
+
+    if (model->rowCount() >0) { j=2; }
+
+    return j;
+
+}

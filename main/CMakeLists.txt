@@ -51,12 +51,13 @@ else()
             serverform.ui
             serverform.cpp
             serverform.h
-            clientform.ui
             clientform.cpp
             clientform.h
             loginform.ui
             loginform.cpp
             loginform.h
+            clientform.ui
+
         )
     endif()
 endif()
