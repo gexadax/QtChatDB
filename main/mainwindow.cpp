@@ -1,11 +1,11 @@
 #include "mainwindow.h"
-#include "database.h"
+//#include "database.h"
 #include "serverform.h"
 #include "loginform.h"
-#include "clientform.h"
-#include "./ui_mainwindow.h"
-#include "config.h"
-#include <QDir>
+//#include "clientform.h"
+#include "ui_mainwindow.h"
+//#include "config.h"
+//#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);

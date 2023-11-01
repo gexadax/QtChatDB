@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include "database.h"
-#include <QMainWindow>
-#include <QMap>
+//#include <QMainWindow>
+//#include <QMap>
 
 namespace Ui {
 class MainWindow;

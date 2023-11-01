@@ -1,10 +1,10 @@
 #include "serverform.h"
 #include "ui_serverform.h"
-#include "database.h"
-#include <QVBoxLayout>
+//#include "database.h"
+//#include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QListWidget>
-#include <QTimer>
+//#include <QTimer>
 
 int ServerForm::kInstanceCount = 0;
 

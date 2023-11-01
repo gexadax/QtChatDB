@@ -1,7 +1,7 @@
 #include "database.h"
-#include <QSqlQuery>
-#include <QFile>
-#include <QSettings>
+//#include <QSqlQuery>
+//#include <QFile>
+//#include <QSettings>
 
 Database::Database() {
     db = QSqlDatabase::addDatabase("QPSQL");

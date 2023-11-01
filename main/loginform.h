@@ -4,8 +4,8 @@
 #include "database.h"
 #include <QFormLayout>
 
-#include <QWidget>
-#include <memory>
+//#include <QWidget>
+//#include <memory>
 
 namespace Ui {
 class LoginForm;

@@ -2,15 +2,15 @@
 #define DATABASE_H
 
 #include <QtSql>
-#include <QSqlDatabase>
-#include <QString>
+//#include <QSqlDatabase>
+//#include <QString>
 #include "config.h"
-#include <memory>
+//#include <memory>
 #include <QMainWindow>
-#include <string>
-#include <vector>
+//#include <string>
+//#include <vector>
 #include <QMessageBox>
-#include <QWidget>
+//#include <QWidget>
 
 int addUser(std::string email);
 

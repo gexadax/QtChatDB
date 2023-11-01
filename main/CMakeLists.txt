@@ -57,6 +57,12 @@ else()
             loginform.cpp
             loginform.h
             clientform.ui
+            startscreen.cpp
+            startscreen.h
+            startscreen.ui
+            registrationform.cpp
+            registrationform.h
+            registrationform.ui
 
         )
     endif()
