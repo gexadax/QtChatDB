@@ -4,9 +4,7 @@ Database::Database() {
     db = QSqlDatabase::addDatabase("QPSQL");
 }
 
-Database::~Database() {
-    closeConnection();
-}
+Database::~Database() {}
 
 void Database::closeConnection() {
 //    db.close();
@@ -34,7 +32,7 @@ bool Database::openConnection() {
             return true;
         } else {
             qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
-            createDatabase();
+//            createDatabase();
             db.open();
             return false;
         }
@@ -59,34 +57,33 @@ bool Database::createDatabase() {
     db.setUserName(username);
     db.setPassword(password);
 
-    if (db.open()) {
-        QSqlQuery query;
-        QString createDbQuery = QString("CREATE DATABASE %1").arg(databaseName);
+//    if (db.open()) {
+//        QSqlQuery query;
+//        QString createDbQuery = QString("CREATE DATABASE %1").arg(databaseName);
 
-        qDebug() << "Create DB query: " << createDbQuery;
+//        qDebug() << "Create DB query: " << createDbQuery;
 
-        if (query.exec(createDbQuery)) {
-            qDebug() << "Database created successfully";
+//        if (query.exec(createDbQuery)) {
+//            qDebug() << "Database created successfully";
 
-            db.close();
 
-            db.setDatabaseName(databaseName);
-            if (db.open()) {
-                if (createTable()) {
-                    qDebug() << "Tables created successfully";
-                    return true;
-                } else {
-                    qDebug() << "Error creating tables";
-                }
-            } else {
-                qDebug() << "Failed to open a connection to the newly created database: " << db.lastError().text();
-            }
-        } else {
-            qDebug() << "Error creating the database:" << query.lastError().text();
-        }
-    } else {
-        qDebug() << "Failed to open a connection to PostgreSQL: " << db.lastError().text();
-    }
+//            db.setDatabaseName(databaseName);
+//            if (db.open()) {
+//                if (createTable()) {
+//                    qDebug() << "Tables created successfully";
+//                    return true;
+//                } else {
+//                    qDebug() << "Error creating tables";
+//                }
+//            } else {
+//                qDebug() << "Failed to open a connection to the newly created database: " << db.lastError().text();
+//            }
+//        } else {
+//            qDebug() << "Error creating the database:" << query.lastError().text();
+//        }
+//    } else {
+//        qDebug() << "Failed to open a connection to PostgreSQL: " << db.lastError().text();
+//    }
     return false;
 }
 
@@ -138,10 +135,10 @@ bool Database::createTable() {
             query.exec("ALTER TABLE history_data ADD FOREIGN KEY (id_sender) REFERENCES registration_data (id_user);") &&
             query.exec("ALTER TABLE history_private_data ADD FOREIGN KEY (id_sender) REFERENCES registration_data (id_user);") &&
             query.exec("ALTER TABLE history_private_data ADD FOREIGN KEY (id_receiver) REFERENCES registration_data (id_user);")) {
-            closeConnection();
+//            closeConnection();
             return true;
         }
-        closeConnection();
+//        closeConnection();
     }
     return false;
 }

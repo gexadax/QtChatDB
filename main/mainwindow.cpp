@@ -2,6 +2,8 @@
 #include "serverform.h"
 #include "loginform.h"
 #include "ui_mainwindow.h"
+#include "startscreen.h"
+#include "clientform.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -124,9 +126,17 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     }
 
     if (isClientChecked) {
-        LoginForm *loginForm = new LoginForm;
-        loginForm->show();
-        QFormLayout* layout = loginForm->getFormLayoutLogin();
+        // Создайте экземпляр ClientForm
+        ClientForm* clientForm = ClientForm::createClient();
+
+        if (clientForm) {
+            // Отобразите форму клиента, если она была успешно создана
+            clientForm->setAttribute(Qt::WA_DeleteOnClose);
+            clientForm->show();
+        } else {
+            // Обработайте случай, когда создание формы клиента не удалось
+            qDebug() << "Failed to create ClientForm.";
+        }
     }
 
     if (isServerChecked || isClientChecked) {
