@@ -1,7 +1,5 @@
 #include "config.h"
-//#include "mainwindow.h"
 #include <QFile>
-//#include <QTextStream>
 #include <QDebug>
 
 Config::Config() {}
@@ -22,7 +20,8 @@ void Config::createServerIni(const QString &filename) {
     }
 }
 
-void Config::saveIniFile(const QString &filename, const QMap<QString, QString> &data) {
+void Config::saveIniFile(const QString &filename,
+                         const QMap<QString, QString> &data) {
     QFile file(filename);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);

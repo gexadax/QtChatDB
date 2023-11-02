@@ -2,7 +2,6 @@
 #define CONFIG_H
 
 #include <QString>
-//#include <QMap>
 
 class Config
 {

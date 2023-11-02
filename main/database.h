@@ -2,15 +2,9 @@
 #define DATABASE_H
 
 #include <QtSql>
-//#include <QSqlDatabase>
-//#include <QString>
 #include "config.h"
-//#include <memory>
 #include <QMainWindow>
-//#include <string>
-//#include <vector>
 #include <QMessageBox>
-//#include <QWidget>
 
 int addUser(std::string email);
 
@@ -33,5 +27,11 @@ private:
     QSqlDatabase db;
     Config config;
 };
+
+void addChatMessage(std::string email,std::string message);
+std::vector<std::string> getUserList();
+void addPrivateMessage(std::string email,
+                       std::string email_receiver,
+                       std::string message);
 
 #endif // DATABASE_H

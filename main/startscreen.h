@@ -14,20 +14,18 @@ class StartScreen : public QDialog
 public:
     explicit StartScreen(QWidget *parent = nullptr);
     ~StartScreen();
-    void setLoginForm();//функция для изменения индекса страницы на 0
-    void setRegistrationForm();//функция для изменения индекса страницы на 1
+    void setLoginForm();
+    void setRegistrationForm();
     int user_id() const;
-
     QString getQemail() const;
 
 public slots:
-    void onLoggedIn(int userId,QString Qemail);//ловим из сигнала нажатие на кнопку ОК
-    void onRejectRequested();//ловим из сигнала нажатие на кнопку ОК
+    void onLoggedIn(int userId,QString Qemail);
+    void onRejectRequested();
 private:
     Ui::StartScreen *ui;
     int m_user_id;
     QString m_Qemail;
-
 };
 
 #endif // STARTSCREEN_H

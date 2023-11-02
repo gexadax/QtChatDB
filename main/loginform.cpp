@@ -1,7 +1,6 @@
 #include "loginform.h"
 #include "ui_loginform.h"
 
-
 LoginForm::LoginForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LoginForm)
@@ -47,9 +46,7 @@ void LoginForm::on_pushButtonOk_clicked()
 
         emit accepted(userId,ui->lineEditLogin->text());
     }
-
 }
-
 
 void LoginForm::on_pushButtonCancel_clicked()
 {
@@ -58,13 +55,11 @@ void LoginForm::on_pushButtonCancel_clicked()
     emit rejected();
 }
 
-
 void LoginForm::on_pushButtonRegistrationCancel_clicked()
 {
     this->close();
     db->closeConnection();
 }
-
 
 void LoginForm::on_pushButtonRegistrationOk_clicked()
 {

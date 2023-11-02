@@ -1,21 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>ClientForm</class>
+ <widget class="QMainWindow" name="ClientForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>607</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ClientForm</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Your message:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="messageLineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="sendMessageButton">
+        <property name="text">
+         <string>Send to all</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="privateMessageButton">
+        <property name="text">
+         <string>Send private</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -24,65 +52,35 @@
       <widget class="QTextBrowser" name="privateChatBrowser"/>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QSplitter" name="splitter_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <widget class="QLineEdit" name="messageLineEdit"/>
-      <widget class="QPushButton" name="sendMessageButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Send</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="privateMessageButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Send All</string>
-       </property>
-      </widget>
-     </widget>
-    </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>607</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuMain_menu">
+   <widget class="QMenu" name="menuMain_Menu">
     <property name="title">
-     <string>Main menu</string>
+     <string>Main Menu</string>
     </property>
     <addaction name="actionOpen_another_client"/>
-    <addaction name="actionClost_this_client"/>
+    <addaction name="actionCloseThisClient"/>
    </widget>
-   <addaction name="menuMain_menu"/>
+   <addaction name="menuMain_Menu"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionClost_this_client">
-   <property name="text">
-    <string>Clost this client</string>
-   </property>
-  </action>
   <action name="actionOpen_another_client">
    <property name="text">
     <string>Open another client</string>
+   </property>
+  </action>
+  <action name="actionCloseThisClient">
+   <property name="text">
+    <string>Close this client</string>
    </property>
   </action>
  </widget>

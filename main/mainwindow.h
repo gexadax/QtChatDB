@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include "database.h"
-//#include <QMainWindow>
-//#include <QMap>
 
 namespace Ui {
 class MainWindow;
@@ -23,13 +21,12 @@ private slots:
     void slot_pushButtonFinish_clicked();
     void updateNextButtonState();
 
-
 private:
     Ui::MainWindow *ui;
     Database *db;
     void createServerIni(const QString &filename);
-    void saveIniFile(const QString &filename, const QMap<QString, QString> &data);
-
+    void saveIniFile(const QString &filename,
+                     const QMap<QString, QString> &data);
 };
 
 bool serverDataIsEmpty(const QMap<QString, QString> &data);

@@ -13,37 +13,37 @@ RegistrationForm::~RegistrationForm()
     delete ui;
 }
 
-void RegistrationForm::on_LoginButton_clicked()//Login
+void RegistrationForm::on_LoginButton_clicked()
 {
-    emit LoginRequested();//emit - отправка сигнала
+    emit LoginRequested();
 }
 
 
-void RegistrationForm::on_buttonBox_accepted()//Ok/Cancel, если принято
+void RegistrationForm::on_buttonBox_accepted()
 {
-    if(ui->PasswordlineEdit->text()!=ui->ConfirmPasswordlineEdit->text())//проверка соответствуют ли пароль и повтор пароля для регистрации
+    if(ui->PasswordlineEdit->text()!=ui->ConfirmPasswordlineEdit->text())
     {
         QMessageBox::critical(this,
-                              tr("Error"),//tr-вызывается, чтобы (сообщение) стало переводимым
+                              tr("Error"),
                               tr("Passwords not match"));
         return;
     }
-    int userId=addUser(ui->LoginLineEdit->text().//adduser - наша функция из Database.h, которая возращает id пользователя
-                                   toStdString());//преобразует в стандартную строку C++
+    int userId=addUser(ui->LoginLineEdit->text().
+                                   toStdString());
 
-    switch(userId)//выставляем варианты вывода функции addUser
+    switch(userId)
     {
-    case 0://некорректное имя
+    case 0:
         QMessageBox::critical(this,
-                              tr("Error"),//tr-вызывается, чтобы (сообщение) стало переводимым
+                              tr("Error"),
                               tr("Incorrect Email"));
         return;
-    case 2://пользователь существует
+    case 2:
         QMessageBox::critical(this,
-                              tr("Error"),//tr-вызывается, чтобы (сообщение) стало переводимым
+                              tr("Error"),
                               tr("Email already exists"));
         return;
-    default://все хорошо
+    default:
 
         QSqlQuery query;
         query.prepare("INSERT INTO registration_data (email) VALUES (:email)");
@@ -55,19 +55,18 @@ void RegistrationForm::on_buttonBox_accepted()//Ok/Cancel, если принят
         model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
         if (model->rowCount() > 0)
         {
-            QModelIndex index = model->index(0, 0); // индекс первой ячейки
-            id_user = model->data(index).toString(); // получение значения ячейки в виде строки
+            QModelIndex index = model->index(0, 0);
+            id_user = model->data(index).toString();
         }
         query.prepare("UPDATE authorization_data SET password = ? WHERE id_user = ?");
         query.bindValue(0, ui->PasswordlineEdit->text());
         query.bindValue(1, id_user);
         query.exec();
-        emit accepted(userId,ui->LoginLineEdit->text());//передаем сигнал, что бы зарегистрирован новый пользователь
+        emit accepted(userId,ui->LoginLineEdit->text());
     }
 }
 
-
-void RegistrationForm::on_buttonBox_rejected()//Ok/Cancel, если отклонено
+void RegistrationForm::on_buttonBox_rejected()
 {
     emit rejected();
 }

@@ -2,7 +2,6 @@
 #define REGISTRATIONFORM_H
 #include "database.h"
 
-
 namespace Ui {
 class RegistrationForm;
 }
@@ -16,16 +15,14 @@ public:
     ~RegistrationForm();
 
 signals:
-    void LoginRequested();//функция для переключения на LoginForm
-    void accepted(int userId,QString Qemail);// если принято
-    void rejected();// если отклонено
+    void LoginRequested();
+    void accepted(int userId,QString Qemail);
+    void rejected();
 
 private slots:
     void on_LoginButton_clicked();
-
-    void on_buttonBox_accepted();//Ok\ Cancel если принято
-
-    void on_buttonBox_rejected();//Ok\ Cancel если отклонено
+    void on_buttonBox_accepted();
+    void on_buttonBox_rejected();
 
 private:
     Ui::RegistrationForm *ui;

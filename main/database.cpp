@@ -1,7 +1,4 @@
 #include "database.h"
-//#include <QSqlQuery>
-//#include <QFile>
-//#include <QSettings>
 
 Database::Database() {
     db = QSqlDatabase::addDatabase("QPSQL");
@@ -90,11 +87,8 @@ bool Database::createDatabase() {
     } else {
         qDebug() << "Failed to open a connection to PostgreSQL: " << db.lastError().text();
     }
-
     return false;
 }
-
-
 
 bool Database::createTable() {
     if (openConnection()) {
@@ -179,7 +173,6 @@ QString Database::getid(QString Qemail)
         id_user_sender = model->data(index).toString();
     };
     return id_user_sender;
-
 }
 
 QString Database::getQemail(QString Qid)
@@ -232,5 +225,66 @@ int addUser(std::string email)
     if (model->rowCount() >0) { j=2; }
 
     return j;
-
 }
+
+void addChatMessage(std::string email, std::string message)
+{
+    QSqlQuery query;
+    QString Qemail = QString::fromStdString(email);
+    QString Qmessage = QString::fromStdString(message);
+    QString id_user;
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
+    if (model->rowCount() > 0)
+    {
+        QModelIndex index = model->index(0, 0);
+        id_user = model->data(index).toString();
+        query.prepare("INSERT INTO history_data (id_sender, message) VALUES (:id_sender,:message)");
+        query.bindValue(":id_sender", id_user);
+        query.bindValue(":message", Qmessage);
+        query.exec();};
+}
+
+std::vector<std::string> getUserList()
+{    std::vector<std::string> userList;
+    std::vector<QString> QuserList;
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT email FROM registration_data where status = 'active'");
+
+    for (int row = 0; row < model->rowCount(); ++row) {
+        auto email = model->data(model->index(row, 0)).toString();
+        QuserList.push_back(email);
+    };
+    for (const auto &qstr : QuserList) {
+        userList.push_back(qstr.toStdString());
+    }
+    return userList;
+}
+
+void addPrivateMessage(std::string email,std::string email_receiver, std::string message)
+{    QSqlQuery query;
+
+    QString id_user_sender;
+    QString id_user_receiver;
+    QString Qemail = QString::fromStdString(email);
+    QString Qemail_receiver = QString::fromStdString(email_receiver);
+    QString Qmessage = QString::fromStdString(message);
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
+    if (model->rowCount() > 0)
+    {        QModelIndex index = model->index(0, 0);
+        id_user_sender = model->data(index).toString();
+        model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail_receiver+"\')");
+
+        if (model->rowCount() > 0){
+            index = model->index(0, 0);
+            id_user_receiver = model->data(index).toString();
+            query.prepare("INSERT INTO history_private_data (id_sender,id_receiver, message) VALUES (:id_sender,:id_receiver, :message)");
+            query.bindValue(":id_sender", id_user_sender);
+            query.bindValue(":id_receiver", id_user_receiver);
+            query.bindValue(":message", Qmessage);
+
+            query.exec();};
+    }
+}
+

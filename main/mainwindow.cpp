@@ -1,11 +1,7 @@
 #include "mainwindow.h"
-//#include "database.h"
 #include "serverform.h"
 #include "loginform.h"
-//#include "clientform.h"
 #include "ui_mainwindow.h"
-//#include "config.h"
-//#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -99,7 +95,6 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     clientData["USERNAME"] = ui->lineEditUsername->text();
     clientData["PASSWORD"] = ui->lineEditPassword->text();
 
-
     bool isServerChecked = ui->checkBoxServer->isChecked();
     bool isClientChecked = ui->checkBoxClient->isChecked();
 
@@ -122,7 +117,6 @@ void MainWindow::slot_pushButtonFinish_clicked() {
 
     bool serverIniExists = QFile::exists("server.ini");
     bool clientIniExists = QFile::exists("client.ini");
-
 
     if (isServerChecked) {
         ServerForm *serverForm = new ServerForm;
@@ -147,7 +141,6 @@ void MainWindow::slot_pushButtonFinish_clicked() {
             qDebug() << "Error creating the database.";
         }
     }
-
     this->close();
 }
 

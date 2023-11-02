@@ -1,10 +1,7 @@
 #include "serverform.h"
 #include "ui_serverform.h"
-//#include "database.h"
-//#include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QListWidget>
-//#include <QTimer>
 
 int ServerForm::kInstanceCount = 0;
 
@@ -72,7 +69,6 @@ void ServerForm::slot_pushButtonChoise_clicked()
     for (const auto& user : userList) {
         userListWgt->addItem(QString::fromStdString(user));
     }
-
 
     userListWgt->setCurrentRow(0);
 
