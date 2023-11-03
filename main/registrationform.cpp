@@ -18,7 +18,6 @@ void RegistrationForm::on_LoginButton_clicked()
     emit LoginRequested();
 }
 
-
 void RegistrationForm::on_buttonBox_accepted()
 {
     if(ui->PasswordlineEdit->text()!=ui->ConfirmPasswordlineEdit->text())

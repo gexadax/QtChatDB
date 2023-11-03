@@ -126,15 +126,12 @@ void MainWindow::slot_pushButtonFinish_clicked() {
     }
 
     if (isClientChecked) {
-        // Создайте экземпляр ClientForm
         ClientForm* clientForm = ClientForm::createClient();
 
         if (clientForm) {
-            // Отобразите форму клиента, если она была успешно создана
             clientForm->setAttribute(Qt::WA_DeleteOnClose);
             clientForm->show();
         } else {
-            // Обработайте случай, когда создание формы клиента не удалось
             qDebug() << "Failed to create ClientForm.";
         }
     }

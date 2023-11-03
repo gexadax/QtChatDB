@@ -1,41 +1,49 @@
 #include "database.h"
+#include <QSqlError>
 
 Database::Database() {
     db = QSqlDatabase::addDatabase("QPSQL");
+
+    if (openConnection()) {
+
+    }
 }
 
-Database::~Database() {}
+Database::~Database() {
+    if (db.isOpen()) {
+        db.close();
+    }
+}
 
 void Database::closeConnection() {
-//    db.close();
+    if (db.isOpen()) {
+        db.close();
+    }
 }
 
 bool Database::openConnection() {
+    if (db.isOpen()) {
+        qDebug() << "Database connection is already open";
+        return true;
+    }
+
     QMap<QString, QString> settings = config.readIniFile("server.ini");
     QString host = settings["HOSTNAME"];
     QString databaseName = settings["DATABASENAME"];
     QString username = settings["USERNAME"];
     QString password = settings["PASSWORD"];
 
-    if (db.isOpen()) {
-        qDebug() << "Database connection is already open";
+    db.setHostName(host);
+    db.setDatabaseName(databaseName);
+    db.setUserName(username);
+    db.setPassword(password);
+
+    if (db.open()) {
+        qDebug() << "Database connection opened successfully";
         return true;
     } else {
-        db.setHostName(host);
-        db.setDatabaseName(databaseName);
-        db.setUserName(username);
-        db.setPassword(password);
-
-        db.close();
-        if (db.open()) {
-            qDebug() << "Database connection opened successfully";
-            return true;
-        } else {
-            qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
-//            createDatabase();
-            db.open();
-            return false;
-        }
+        qDebug() << "Failed to open database connection. Error: " << db.lastError().text();
+        return false;
     }
 }
 
@@ -46,44 +54,35 @@ bool Database::createDatabase() {
     QString username = settings["USERNAME"];
     QString password = settings["PASSWORD"];
 
-    qDebug() << "Read HOSTNAME from server.ini: " << host;
-    qDebug() << "Read DATABASENAME from server.ini: " << databaseName;
-    qDebug() << "Read USERNAME from server.ini: " << username;
-
-    db = QSqlDatabase::addDatabase("QPSQL");
-
     db.setHostName(host);
     db.setDatabaseName("postgres");
     db.setUserName(username);
     db.setPassword(password);
 
-//    if (db.open()) {
-//        QSqlQuery query;
-//        QString createDbQuery = QString("CREATE DATABASE %1").arg(databaseName);
+    if (db.open()) {
+        QSqlQuery query;
+        QString createDbQuery = QString("CREATE DATABASE %1").arg(databaseName);
 
-//        qDebug() << "Create DB query: " << createDbQuery;
+        if (query.exec(createDbQuery)) {
+            qDebug() << "Database created successfully";
 
-//        if (query.exec(createDbQuery)) {
-//            qDebug() << "Database created successfully";
-
-
-//            db.setDatabaseName(databaseName);
-//            if (db.open()) {
-//                if (createTable()) {
-//                    qDebug() << "Tables created successfully";
-//                    return true;
-//                } else {
-//                    qDebug() << "Error creating tables";
-//                }
-//            } else {
-//                qDebug() << "Failed to open a connection to the newly created database: " << db.lastError().text();
-//            }
-//        } else {
-//            qDebug() << "Error creating the database:" << query.lastError().text();
-//        }
-//    } else {
-//        qDebug() << "Failed to open a connection to PostgreSQL: " << db.lastError().text();
-//    }
+            db.setDatabaseName(databaseName);
+            if (db.open()) {
+                if (createTable()) {
+                    qDebug() << "Tables created successfully";
+                    return true;
+                } else {
+                    qDebug() << "Error creating tables";
+                }
+            } else {
+                qDebug() << "Failed to open a connection to the newly created database: " << db.lastError().text();
+            }
+        } else {
+            qDebug() << "Error creating the database:" << query.lastError().text();
+        }
+    } else {
+        qDebug() << "Failed to open a connection to PostgreSQL: " << db.lastError().text();
+    }
     return false;
 }
 

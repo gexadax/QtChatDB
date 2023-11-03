@@ -1,7 +1,6 @@
 #include "loginform.h"
 #include "ui_loginform.h"
 
-
 LoginForm::LoginForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LoginForm)
@@ -14,40 +13,38 @@ LoginForm::~LoginForm()
     delete ui;
 }
 
-
-void LoginForm::on_RegistrationButton_clicked()//Registration
+void LoginForm::on_RegistrationButton_clicked()
 {
-emit RegistrationRequested();//emit - отправка сигнала
+emit RegistrationRequested();
 }
 
 Database *db;
-void LoginForm::on_buttonBox_accepted()//  Ok
+void LoginForm::on_buttonBox_accepted()
 {
-int userId=db->checkPassword(ui->LoginEdit->text().toStdString(),//checkPassword()-из CommandLineInterface.h
+int userId=db->checkPassword(ui->LoginEdit->text().toStdString(),
                                      ui->PasswordEdit->text().toStdString());
-switch(userId)//выставляем варианты вывода функции checkPassword
+switch(userId)
 {
-case 0://некорректное имя
+case 0:
     QMessageBox::critical(this,
-                          tr("Error"),//tr-вызывается, чтобы (сообщение) стало переводимым
+                          tr("Error"),
                           tr("Wrong Email"));
     return;
-case 1://пользователь существует
+case 1:
     QMessageBox::critical(this,
-                          tr("Error"),//tr-вызывается, чтобы (сообщение) стало переводимым
+                          tr("Error"),
                           tr("Wrong Password"));
     return;
-default://все хорошо
+default:
 
     QMessageBox::information(0,"Успешно", "Добро пожаловать в чат!");
 
-    emit accepted(userId,ui->LoginEdit->text());//передаем сигнал, что бы зарегистрирован новый пользователь
+    emit accepted(userId,ui->LoginEdit->text());
 }
 
 }
 
-
-void LoginForm::on_buttonBox_rejected()//  Cancel
+void LoginForm::on_buttonBox_rejected()
 {
    emit rejected();
 }
