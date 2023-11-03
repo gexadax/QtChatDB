@@ -112,8 +112,6 @@ void ClientForm::updateChats()
     ui->commonChatBrowser->setText(chat);
     chat.clear();
 
-    Database db;
-
     model.setQuery("SELECT id_sender,id_receiver,message "
                    "FROM history_private_data "
                    " WHERE (id_sender=\'"+db.getid(m_Qemail)+"\') OR(id_receiver=\'"+db.getid(m_Qemail)+"\') ");

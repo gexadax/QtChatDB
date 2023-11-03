@@ -32,6 +32,7 @@ private:
     Ui::ClientForm *ui;
     int m_userId;
     QString m_Qemail;
+    Database db;
 };
 
 #endif // CLIENTFORM_H
