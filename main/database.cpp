@@ -54,6 +54,8 @@ bool Database::createDatabase() {
     QString username = settings["USERNAME"];
     QString password = settings["PASSWORD"];
 
+    db = QSqlDatabase::addDatabase("QPSQL");
+
     db.setHostName(host);
     db.setDatabaseName("postgres");
     db.setUserName(username);
